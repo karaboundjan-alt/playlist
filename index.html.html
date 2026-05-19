@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Playlist Construtiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--surface:#13131a;--border:#ffffff12;--text:#f0f0f5;--muted:#8888aa;--blue:#4f8ef7;--amber:#f5a623;--teal:#2ecfaa;--coral:#f76c6c;--purple:#a78bfa}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+h1,h2,h3{font-family:'Syne',sans-serif}
+header{padding:2.5rem 1.5rem 1rem;text-align:center;border-bottom:1px solid var(--border)}
+header h1{font-size:clamp(1.4rem,4vw,2rem);font-weight:700;letter-spacing:-0.5px;color:#fff}
+header p{font-size:13px;color:var(--muted);margin-top:6px}
+.total-badge{display:inline-block;background:#ffffff10;border:1px solid var(--border);border-radius:20px;padding:4px 14px;font-size:12px;color:var(--muted);margin-top:10px}
+.total-badge span{color:var(--blue);font-weight:600}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:1rem 1.5rem;scrollbar-width:none;border-bottom:1px solid var(--border)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.tab:hover{border-color:#ffffff30;color:#fff}
+.tab.active{background:#fff;color:#000;border-color:#fff}
+.content{padding:1.25rem 1.5rem}
+.section{display:none}
+.section.active{display:block}
+.cat-label{display:flex;align-items:center;gap:8px;margin-bottom:1rem}
+.cat-emoji{font-size:20px}
+.cat-info h2{font-size:15px;font-weight:600;color:#fff}
+.cat-info p{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.vcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:block}
+.vcard:hover{border-color:#ffffff30;transform:translateY(-2px);background:#1a1a24}
+.vcard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.vcard-title{font-size:13px;font-weight:500;color:#fff;line-height:1.4;flex:1}
+.dur{font-size:10px;font-weight:600;padding:2px 8px;border-radius:8px;white-space:nowrap;flex-shrink:0}
+.dur-l{background:#4f8ef720;color:#4f8ef7}
+.dur-m{background:#f5a62320;color:#f5a623}
+.dur-s{background:#2ecfaa20;color:#2ecfaa}
+.vcard-channel{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.vcard-channel::before{content:"▶";font-size:9px;color:var(--coral)}
+.vcard-tip{font-size:11px;color:#ffffff40;margin-top:6px;font-style:italic;border-top:1px solid var(--border);padding-top:6px}
+.rules{display:flex;flex-direction:column;gap:10px}
+.rule{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.rnum{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#000;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rtext{font-size:13px;color:#ccc;line-height:1.65}
+.rtext strong{color:#fff;font-weight:500}
+.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:1rem}
+.day{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.dname{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.dcat{font-size:12px;color:#ddd;line-height:1.5}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1.25rem}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.ldot{width:8px;height:8px;border-radius:50%}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎯 Minha Playlist Construtiva</h1>
+  <p>Conteúdo em português para substituir o tédio por conhecimento</p>
+  <div class="total-badge"><span>45</span> vídeos selecionados</div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="show('hist')">🏛️ História</div>
+  <div class="tab" onclick="show('crime')">🔍 True Crime</div>
+  <div class="tab" onclick="show('psico')">🧠 Psicologia</div>
+  <div class="tab" onclick="show('financas')">💰 Finanças</div>
+  <div class="tab" onclick="show('ciencia')">🔬 Ciência</div>
+  <div class="tab" onclick="show('pausas')">⚡ Pausas rápidas</div>
+  <div class="tab" onclick="show('uso')">🛡️ Como usar</div>
+  <div class="tab" onclick="show('semana')">📅 Rotina</div>
+</div>
+
+<div class="content">
+
+<div class="legend">
+  <div class="leg"><div class="ldot" style="background:#4f8ef7"></div> Longo (40min+)</div>
+  <div class="leg"><div class="ldot" style="background:#f5a623"></div> Médio (20–40min)</div>
+  <div class="leg"><div class="ldot" style="background:#2ecfaa"></div> Curto (10–20min)</div>
+</div>
+
+<!-- HISTÓRIA -->
+<div id="hist" class="section active">
+  <div class="cat-label"><div class="cat-emoji">🏛️</div><div class="cat-info"><h2>História &amp; Mistérios</h2><p>10 vídeos — civilizações, enigmas e fatos ocultos</p></div></div>
+  <div class="grid">
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+hist%C3%B3ria+roma+antiga" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">A Queda do Império Romano — O que realmente aconteceu</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=se+liga+na+hist%C3%B3ria+maias+desaparecimento" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">O Misterioso Desaparecimento dos Maias</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Se Liga na História</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=hist%C3%B3ria+enigm%C3%A1tica+atl%C3%A2ntida" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Atlântida — Mito ou Civilização Real?</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">História Enigmática</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+piramides+egito+como+foram+constru%C3%ADdas" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como as Pirâmides Foram Construídas? A Ciência Responde</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=manual+do+mundo+mist%C3%A9rios+hist%C3%B3ricos" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Os Maiores Mistérios da História que Ainda Não Foram Resolvidos</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Manual do Mundo</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=hist%C3%B3ria+enigm%C3%A1tica+gobekli+tepe" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Göbekli Tepe — O Templo que Reescreve a História Humana</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">História Enigmática</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=se+liga+na+hist%C3%B3ria+viquingues" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Quem Eram os Verdadeiros Viquingues?</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Se Liga na História</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+nazistas+segunda+guerra+curiosidades" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Os Projetos Secretos da Segunda Guerra que Você Nunca Ouviu Falar</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=hist%C3%B3ria+enigm%C3%A1tica+manuscrito+voynich" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">O Manuscrito Voynich — O Livro Mais Misterioso do Mundo</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">História Enigmática</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=se+liga+na+hist%C3%B3ria+imp%C3%A9rio+mongol" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">O Império Mongol — Como um Povo Nômade Conquistou o Mundo</div><span class="dur dur-l">Longo</span></div>
+      <div class="vcard-channel">Se Liga na História</div>
+    </a>
+  </div>
+</div>
+
+<!-- TRUE CRIME -->
+<div id="crime" class="section">
+  <div class="cat-label"><div class="cat-emoji">🔍</div><div class="cat-info"><h2>True Crime &amp; Investigação</h2><p>9 vídeos — foco em psicologia e investigação</p></div></div>
+  <div class="grid">
+    <a class="vcard" href="https://www.youtube.com/results?search_query=ciencias+criminais+ted+bundy+psicologia" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">A Psicologia de Ted Bundy — O que faz um serial killer?</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Ciências Criminais</div>
+      <div class="vcard-tip">Canal brasileiro especializado, sem sensacionalismo</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=ciencias+criminais+jack+o+estripador+investiga%C3%A7%C3%A3o" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Jack, o Estripador — A Investigação que Nunca Terminou</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Ciências Criminais</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=incrivel+serial+killers+mais+perigosos" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Os 5 Serial Killers Mais Inteligentes da História</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Incrível</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=ciencias+criminais+como+fbi+captura+serial+killers" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como o FBI Cria o Perfil de um Serial Killer</div><span class="dur dur-l">Longo</span></div>
+      <div class="vcard-channel">Ciências Criminais</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=casos+de+pol%C3%ADcia+brasil+crimes+famosos+documentario" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Os Crimes Mais Famosos do Brasil — Documentário</div><span class="dur dur-l">Longo</span></div>
+      <div class="vcard-channel">Casos de Polícia / SBT Brasil</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=ciencias+criminais+charles+manson+seita" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Charles Manson — A Seita que Aterrorizou Hollywood</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Ciências Criminais</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=incrivel+casos+inexplicaveis+cold+case" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Casos Frios que Foram Resolvidos Décadas Depois</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Incrível</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=ciencias+criminais+zodiac+killer" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Zodiac — O Assassino que Nunca Foi Pego</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Ciências Criminais</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=psicologia+na+pr%C3%A1tica+mente+do+criminoso" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">O Que Passa na Mente de um Criminoso? — Psicologia Forense</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Psicologia na Prática</div>
+    </a>
+  </div>
+</div>
+
+<!-- PSICOLOGIA -->
+<div id="psico" class="section">
+  <div class="cat-label"><div class="cat-emoji">🧠</div><div class="cat-info"><h2>Psicologia, Hábitos &amp; Comportamento</h2><p>9 vídeos — entender a mente para se dominar</p></div></div>
+  <div class="grid">
+    <a class="vcard" href="https://www.youtube.com/results?search_query=psicologia+na+pr%C3%A1tica+dopamina+vicio+celular" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Dopamina — Por que Você é Viciado no Celular e Como Parar</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Psicologia na Prática</div>
+      <div class="vcard-tip">Diretamente relacionado ao que você quer mudar</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=me+especializa+loop+do+habito+atomic+habits" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">O Loop do Hábito — Como Criar e Quebrar Hábitos de Verdade</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Me Especializa</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+procrastina%C3%A7%C3%A3o+ci%C3%AAncia+cerebro" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">A Ciência da Procrastinação — Por que Seu Cérebro Sabota Você</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=psicologia+na+pr%C3%A1tica+autodisciplina+como+desenvolver" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como Desenvolver Autodisciplina — A Ciência por Trás do Autocontrole</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Psicologia na Prática</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=me+especializa+ted%C3%ADo+produtividade+ociosidade" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Por que o Tédio é Perigoso — e Como Usar a Ociosidade a Seu Favor</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Me Especializa</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=psicologia+na+pr%C3%A1tica+vieses+cognitivos+comportamento" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Os 10 Vieses Cognitivos que Controlam Suas Decisões</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Psicologia na Prática</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+sono+cerebro+ci%C3%AAncia" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">O que Acontece com Seu Cérebro Quando Você Não Dorme Bem</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=manual+do+homem+moderno+disciplina+rotina+masculina" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como Montar uma Rotina Que Realmente Funciona</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Manual do Homem Moderno</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=psicologia+na+pr%C3%A1tica+intelig%C3%AAncia+emocional+controle" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Inteligência Emocional — Como Controlar Seus Impulsos</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Psicologia na Prática</div>
+    </a>
+  </div>
+</div>
+
+<!-- FINANÇAS -->
+<div id="financas" class="section">
+  <div class="cat-label"><div class="cat-emoji">💰</div><div class="cat-info"><h2>Finanças &amp; Carreira</h2><p>8 vídeos — crescimento real e prático</p></div></div>
+  <div class="grid">
+    <a class="vcard" href="https://www.youtube.com/results?search_query=me+poupe+como+juntar+dinheiro+para+carro" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como Juntar Dinheiro para o Primeiro Carro do Zero</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Me Poupe! — Nathalia Arcuri</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=thiago+nigro+primo+rico+investimentos+iniciantes" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Onde Investir Sendo Iniciante — Guia Completo</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Primo Rico — Thiago Nigro</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=me+poupe+or%C3%A7amento+casal+renda+baixa" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como Organizar o Orçamento do Casal — Planilha e Método</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Me Poupe!</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=primo+rico+reserva+de+emerg%C3%AAncia+como+montar" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Reserva de Emergência — Por Onde Começar do Zero</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Primo Rico</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=me+poupe+d%C3%ADvidas+como+sair+juros+cart%C3%A3o" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como Sair das Dívidas — O Método que Funciona de Verdade</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Me Poupe!</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=thiago+nigro+mentalidade+rico+pobre+diferen%C3%A7a" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">A Diferença de Mentalidade Entre Ricos e Pobres</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Primo Rico</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=me+especializa+crescimento+profissional+carreira+administrativa" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como Crescer Profissionalmente na Área Administrativa</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Me Especializa</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=me+poupe+regra+50+30+20+or%C3%A7amento+mensal" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Regra 50-30-20 — O Orçamento Mensal mais Simples do Mundo</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Me Poupe!</div>
+    </a>
+  </div>
+</div>
+
+<!-- CIÊNCIA -->
+<div id="ciencia" class="section">
+  <div class="cat-label"><div class="cat-emoji">🔬</div><div class="cat-info"><h2>Ciência &amp; Curiosidades</h2><p>9 vídeos — universo, natureza e tecnologia</p></div></div>
+  <div class="grid">
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+buraco+negro+como+funciona" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como Funciona um Buraco Negro — A Física Explicada</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=manual+do+mundo+experi%C3%AAncia+f%C3%ADsica+incrivel" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Experiências de Física que Desafiam o Senso Comum</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Manual do Mundo</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+virus+como+funcionam+biologia" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como os Vírus Funcionam — Biologia Explicada</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=incrivel+fatos+sobre+o+universo+espa%C3%A7o" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">10 Fatos Sobre o Universo que Vão Explodir Sua Mente</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Incrível</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+intelig%C3%AAncia+artificial+como+funciona+2024" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Como a Inteligência Artificial Realmente Funciona</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=manual+do+mundo+oceano+profundo+criaturas" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">O Que Existe nas Profundezas do Oceano?</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Manual do Mundo</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+evolucao+humana+origem+homo+sapiens" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">A Origem do Homo Sapiens — Como Nos Tornamos Humanos</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=incrivel+conspira%C3%A7%C3%B5es+cientificamente+explicadas" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Teorias da Conspiração Explicadas pela Ciência</div><span class="dur dur-m">Médio</span></div>
+      <div class="vcard-channel">Incrível</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+f%C3%ADsica+qu%C3%A2ntica+iniciantes+explicado" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Física Quântica Explicada para Leigos — Sem Complicação</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+  </div>
+</div>
+
+<!-- PAUSAS -->
+<div id="pausas" class="section">
+  <div class="cat-label"><div class="cat-emoji">⚡</div><div class="cat-info"><h2>Pausas rápidas no trabalho</h2><p>10 vídeos curtos — 10 a 15 minutos, início e fim claro</p></div></div>
+  <div class="grid">
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+curiosidades+hist%C3%B3ricas+r%C3%A1pidas" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">5 Curiosidades Históricas Absurdas que São Verdade</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=incrivel+fatos+curiosos+voc%C3%AA+n%C3%A3o+sabia" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Fatos Curiosos que Vão Mudar Como Você Vê o Mundo</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Incrível</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=me+poupe+dica+financeira+rapida+15+minutos" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">1 Dica Financeira que Vai Mudar Sua Vida — 15 Minutos</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Me Poupe!</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=se+liga+na+historia+misterio+rapido+10+minutos" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Um Mistério Histórico Resolvido em 10 Minutos</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Se Liga na História</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=psicologia+na+pratica+dica+rapida+comportamento" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">3 Gatilhos Psicológicos que Controlam Seu Comportamento</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Psicologia na Prática</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=nerdologia+mente+humana+curiosidades+r%C3%A1pidas" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Por que Seu Cérebro te Engana Todo Dia</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Nerdologia</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=incrivel+lugares+mais+misterioso+do+mundo" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Os Lugares Mais Misteriosos do Mundo</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Incrível</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=ciencias+criminais+caso+rapido+investigado+resolvido" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Um Caso Criminal Investigado em 12 Minutos</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Ciências Criminais</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=manual+do+mundo+experimento+curioso+10+minutos" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">Experimento Científico Que Você Pode Fazer Agora</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Manual do Mundo</div>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/results?search_query=primo+rico+dinheiro+curto+r%C3%A1pido+1+dica" target="_blank">
+      <div class="vcard-top"><div class="vcard-title">O Hábito Financeiro que Muda Tudo — Explicado Rápido</div><span class="dur dur-s">Curto</span></div>
+      <div class="vcard-channel">Primo Rico</div>
+    </a>
+  </div>
+</div>
+
+<!-- USO -->
+<div id="uso" class="section">
+  <div class="cat-label"><div class="cat-emoji">🛡️</div><div class="cat-info"><h2>Como usar sem cair no algoritmo</h2><p>7 regras práticas de disciplina digital</p></div></div>
+  <div class="rules">
+    <div class="rule"><div class="rnum">1</div><div class="rtext"><strong>Entre pelo site, não pelo app.</strong> No computador, use o YouTube pelo navegador com a extensão <strong>Unhook</strong> instalada. Ela remove o feed, os Shorts e as sugestões.</div></div>
+    <div class="rule"><div class="rnum">2</div><div class="rtext"><strong>Crie uma playlist privada no YouTube.</strong> Adicione os vídeos que achar melhores. Quando sentir tédio, abra a playlist — nunca o feed. Nome sugerido: <em>"Modo Foco"</em>.</div></div>
+    <div class="rule"><div class="rnum">3</div><div class="rtext"><strong>Desative o autoplay.</strong> Configurações do YouTube → desative "Reprodução automática". Cada vídeo termina e para. Você escolhe o próximo conscientemente.</div></div>
+    <div class="rule"><div class="rnum">4</div><div class="rtext"><strong>No trabalho: só aba "Pausas rápidas".</strong> Documentários longos são para casa. No trabalho, 10–15 minutos e volta ao foco.</div></div>
+    <div class="rule"><div class="rnum">5</div><div class="rtext"><strong>Tela em escala de cinza no celular.</strong> Configurações → Acessibilidade → Escala de cinza. Tela sem cor reduz o impulso automático de pegar o celular.</div></div>
+    <div class="rule"><div class="rnum">6</div><div class="rtext"><strong>Bloqueie Shorts.</strong> No app do YouTube: Configurações → Geral → desative Shorts. Ou use o <strong>YouTube ReVanced</strong> (Android) que remove Shorts por padrão.</div></div>
+    <div class="rule"><div class="rnum">7</div><div class="rtext"><strong>Este site é sua porta de entrada.</strong> Salve nos favoritos. Abra ele antes de abrir o YouTube — nunca o contrário.</div></div>
+  </div>
+</div>
+
+<!-- SEMANA -->
+<div id="semana" class="section">
+  <div class="cat-label"><div class="cat-emoji">📅</div><div class="cat-info"><h2>Rotina semanal sugerida</h2><p>Uma categoria por dia — nunca fica sem direção</p></div></div>
+  <div class="week">
+    <div class="day"><div class="dname">Segunda</div><div class="dcat">🧠 Psicologia<br><span style="font-size:11px;color:var(--muted)">+ 1 pausa curta</span></div></div>
+    <div class="day"><div class="dname">Terça</div><div class="dcat">🏛️ História<br><span style="font-size:11px;color:var(--muted)">+ 1 pausa curta</span></div></div>
+    <div class="day"><div class="dname">Quarta</div><div class="dcat">🔍 True Crime<br><span style="font-size:11px;color:var(--muted)">+ 1 pausa curta</span></div></div>
+    <div class="day"><div class="dname">Quinta</div><div class="dcat">💰 Finanças<br><span style="font-size:11px;color:var(--muted)">+ 1 pausa curta</span></div></div>
+    <div class="day"><div class="dname">Sexta</div><div class="dcat">🔬 Ciência<br><span style="font-size:11px;color:var(--muted)">+ doc longo à noite</span></div></div>
+    <div class="day"><div class="dname">Sáb / Dom</div><div class="dcat" style="color:var(--muted)">Priorize sua esposa e vida real.</div></div>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:1rem;font-size:13px;color:#aaa;line-height:1.7">
+    <strong style="color:#fff">Quantidade ideal:</strong> 45 vídeos. Renove 8–10 por mês. Nunca esgota, nunca vira infinito.
+  </div>
+</div>
+
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active')});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  document.getElementById(id).classList.add('active');
+  var tabs=['hist','crime','psico','financas','ciencia','pausas','uso','semana'];
+  document.querySelectorAll('.tab')[tabs.indexOf(id)].classList.add('active');
+}
+</script>
+</body>
+</html>
